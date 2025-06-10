@@ -3,7 +3,6 @@ import { Inter, Jost } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
-import { BackgroundBeams } from "@/components/ui/bg-beams";
 
 const jost = Jost({
   subsets: ['latin'],

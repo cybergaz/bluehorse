@@ -524,10 +524,10 @@ export default function AppDevelopmentServices() {
           >
             {/* Timeline */}
             <div className="relative">
-              {/* Timeline Line */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-purple-500 via-[#0071bc] to-teal-500"></div>
+              {/* Timeline Line - Hidden on mobile */}
+              <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-purple-500 via-[#0071bc] to-teal-500"></div>
 
-              <div className="space-y-16">
+              <div className="space-y-8 md:space-y-16">
                 {[
                   {
                     step: "01",
@@ -575,16 +575,59 @@ export default function AppDevelopmentServices() {
                     side: "left",
                   },
                 ].map((process, index) => (
-                  <div key={index} className={`flex items-center ${process.side === "right" ? "flex-row-reverse" : ""}`}>
-                    <div className={`w-1/2 ${process.side === "right" ? "pl-12" : "pr-12"}`}>
+                  <div key={index} className="relative">
+                    {/* Mobile Timeline Node */}
+                    <div className="md:hidden absolute -left-4 top-6 z-10">
+                      <div
+                        className={`w-4 h-4 bg-gradient-to-r from-${process.color}-500 to-${process.color}-600 rounded-full border-2 border-slate-900`}
+                      ></div>
+                    </div>
+
+                    {/* Desktop Layout */}
+                    <div className={`hidden md:flex items-center ${process.side === "right" ? "flex-row-reverse" : ""}`}>
+                      <div className={`w-1/2 ${process.side === "right" ? "pl-12" : "pr-12"}`}>
+                        <Card
+                          className={`bg-gradient-to-br from-${process.color}-900/40 to-${process.color}-800/20 border-${process.color}-500/30 backdrop-blur-sm p-8`}
+                        >
+                          <div className="flex items-center space-x-4 mb-4">
+                            <div
+                              className={`w-12 h-12 bg-gradient-to-r from-${process.color}-500 to-${process.color}-600 rounded-lg flex items-center justify-center`}
+                            >
+                              <process.icon className="h-6 w-6 text-white" />
+                            </div>
+                            <div>
+                              <Badge
+                                className={`bg-${process.color}-500/20 text-${process.color}-200 border-${process.color}-400/30 mb-2`}
+                              >
+                                Step {process.step}
+                              </Badge>
+                              <h3 className="text-xl font-bold text-white">{process.title}</h3>
+                            </div>
+                          </div>
+                          <p className="text-gray-300">{process.description}</p>
+                        </Card>
+                      </div>
+
+                      {/* Desktop Timeline Node */}
+                      <div className="relative z-10">
+                        <div
+                          className={`w-6 h-6 bg-gradient-to-r from-${process.color}-500 to-${process.color}-600 rounded-full border-4 border-slate-900`}
+                        ></div>
+                      </div>
+
+                      <div className="w-1/2"></div>
+                    </div>
+
+                    {/* Mobile Layout */}
+                    <div className="md:hidden">
                       <Card
-                        className={`bg-gradient-to-br from-${process.color}-900/40 to-${process.color}-800/20 border-${process.color}-500/30 backdrop-blur-sm p-8`}
+                        className={`bg-gradient-to-br from-${process.color}-900/40 to-${process.color}-800/20 border-${process.color}-500/30 backdrop-blur-sm p-6 ml-4`}
                       >
                         <div className="flex items-center space-x-4 mb-4">
                           <div
-                            className={`w-12 h-12 bg-gradient-to-r from-${process.color}-500 to-${process.color}-600 rounded-lg flex items-center justify-center`}
+                            className={`w-10 h-10 bg-gradient-to-r from-${process.color}-500 to-${process.color}-600 rounded-lg flex items-center justify-center`}
                           >
-                            <process.icon className="h-6 w-6 text-white" />
+                            <process.icon className="h-5 w-5 text-white" />
                           </div>
                           <div>
                             <Badge
@@ -592,21 +635,12 @@ export default function AppDevelopmentServices() {
                             >
                               Step {process.step}
                             </Badge>
-                            <h3 className="text-xl font-bold text-white">{process.title}</h3>
+                            <h3 className="text-lg font-bold text-white">{process.title}</h3>
                           </div>
                         </div>
-                        <p className="text-gray-300">{process.description}</p>
+                        <p className="text-gray-300 text-sm">{process.description}</p>
                       </Card>
                     </div>
-
-                    {/* Timeline Node */}
-                    <div className="relative z-10">
-                      <div
-                        className={`w-6 h-6 bg-gradient-to-r from-${process.color}-500 to-${process.color}-600 rounded-full border-4 border-slate-900`}
-                      ></div>
-                    </div>
-
-                    <div className="w-1/2"></div>
                   </div>
                 ))}
               </div>

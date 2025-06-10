@@ -26,6 +26,12 @@ import { Sheet, SheetContent, SheetTrigger, SheetClose } from "../ui/sheet";
 import { Button } from "../ui/button";
 import { NAVLINKS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../ui/accordion";
 
 const iconMap: Record<string, React.ElementType> = {
   globe: Globe,
@@ -147,40 +153,65 @@ const Header = () => {
               <SheetTrigger className="md:hidden p-2">
                 <Menu className="h-6 w-6 text-white" />
               </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px] pt-10 bg-slate-900">
+              <SheetContent side="right" className="w-[300px] sm:w-[400px] h-full pt-10 bg-gradient-to-br from-slate-900 via-slate-800 to-gray-900 border-l border-white/5 overflow-y-scroll">
                 <nav className="flex flex-col gap-4">
                   {NAVLINKS.map((link) => (
                     link.hasDropdown ? (
-                      <div key={link.title} className="space-y-2">
-                        <div className="font-medium text-white">{link.title}</div>
-                        <div className="pl-4 space-y-2">
-                          {link.categories?.map((category) => (
-                            category.links.map((item) => (
-                              <Link
-                                key={item.title}
-                                href={item.url}
-                                className="block p-2 text-white hover:bg-white/10 rounded-md"
-                              >
-                                {item.title}
-                              </Link>
-                            ))
-                          ))}
-                        </div>
-                      </div>
+                      <Accordion key={link.title} type="single" collapsible className="w-full ml-[7px]">
+                        <AccordionItem value={link.title} className="border-none">
+                          <AccordionTrigger className="text-white hover:text-[#0071bc] py-2 hover:no-underline">
+                            {link.title}
+                          </AccordionTrigger>
+                          <AccordionContent>
+                            <div className="pl-4 space-y-2">
+                              {link.categories?.map((category) => (
+                                <div key={category.title} className="space-y-2">
+                                  <h3 className="text-sm font-medium text-white/70 uppercase tracking-wider">{category.title}</h3>
+                                  {category.links.map((item) => {
+                                    const Icon = iconMap[item.icon as keyof typeof iconMap];
+                                    const bgColor = colorMap[item.color as keyof typeof colorMap];
+                                    const iconColor = iconColorMap[item.color as keyof typeof iconColorMap];
+
+                                    return (
+                                      <SheetClose key={item.title} asChild>
+                                        <Link
+                                          href={item.url}
+                                          className="flex items-center gap-3 p-2 hover:bg-white/5 rounded-lg transition-colors group/item"
+                                        >
+                                          <span className={`bg-gradient-to-br ${bgColor} p-2 rounded-lg`}>
+                                            <Icon className={`h-4 w-4 ${iconColor}`} />
+                                          </span>
+                                          <div>
+                                            <h4 className="font-medium text-white">{item.title}</h4>
+                                            <p className="text-xs text-slate-300">Learn more about {item.title.toLowerCase()}</p>
+                                          </div>
+                                        </Link>
+                                      </SheetClose>
+                                    );
+                                  })}
+                                </div>
+                              ))}
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
                     ) : (
-                      <Link
-                        key={link.title}
-                        href={link.url || "#"}
-                        className="font-medium text-white hover:bg-white/10 rounded-md p-2"
-                      >
-                        {link.title}
-                      </Link>
+                      <SheetClose key={link.title} asChild>
+                        <Link
+                          href={link.url || "#"}
+                          className="font-medium text-white hover:text-[#0071bc] hover:bg-white/5 rounded-md p-2 transition-colors"
+                        >
+                          {link.title}
+                        </Link>
+                      </SheetClose>
                     )
                   ))}
 
-                  <Button className="bg-gradient-to-r from-[#0071bc] to-[#005a94] hover:from-[#005a94] hover:to-[#004a7a] text-white mt-4">
-                    Get Started
-                  </Button>
+                  <SheetClose asChild>
+                    <Button className="bg-gradient-to-r from-[#0071bc] to-[#0085d1] hover:from-[#005a94] hover:to-[#0071bc] text-white mt-4">
+                      Get Started
+                    </Button>
+                  </SheetClose>
                 </nav>
               </SheetContent>
             </Sheet>

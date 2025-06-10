@@ -68,7 +68,7 @@ const Hero = () => {
               <ContainerTextFlip
                 words={["Web Development", "App Development", "Cloud Migration", "DevOps", "FinOps", "SEO & Advertisement", "Digital Marketing", "E-Commerce Solutions"]}
                 className="bg-gradient-to-r from-slate-800/50 to-slate-700/50"
-                textClassName="bg-gradient-to-r from-[#0071bc] to-[#00a8ff] bg-clip-text text-transparent"
+                textClassName="text-teal-400"
               />
             </motion.div>
           </motion.div>
